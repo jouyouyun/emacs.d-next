@@ -12,9 +12,9 @@
 
 (message "Emacs startup for %s..." current-user)
 
-;; Version checker
+;; Version checker, straight.el supports a minimum version of Emacs 25.1
 (when (version< emacs-version "25.1")
-  (error "Require Emacs 15.1 or newer, but you're running %s" emacs-version))
+  (error "Require Emacs 25.1 or newer, but you're running %s" emacs-version))
 
 ;; Always load newest byte code
 ;; Non-nil means load prefers the newest version of a file.
@@ -27,6 +27,8 @@
   "Emacs core modules dir.")
 (defvar config-modules-dir (expand-file-name "modules" config-dir)
   "Emacs optional modules dir.")
+(defvar config-elpa-dir (expand-file-name "elpa" config-dir)
+  "Emacs optional elpa dir.")
 (defvar config-personal-dir (expand-file-name "personal" config-dir)
   "Emacs personal modules dir.")
 (defvar config-personal-package-dir (expand-file-name "packages" config-personal-dir)
@@ -44,6 +46,9 @@
 (unless (file-exists-p config-savefile-dir)
   (make-directory config-savefile-dir))
 
+(unless (file-exists-p config-elpa-dir)
+  (make-directory config-elpa-dir))
+
 ;; add configuration's directories to `load-path'
 (add-to-list 'load-path config-core-dir)
 (add-to-list 'load-path config-modules-dir)
@@ -58,43 +63,43 @@
 
 (message "Loading core modules...")
 (require 'core-packages)
-(require 'core-custom) ;; if custom some variable in personal, please load at the next line
-(require 'core-ui)
-(require 'core-project) ;; must load before core-frontend
-(require 'core-editor)
-(require 'core-env-path)
-(require 'core-org)
-(require 'core-chinese)
-(require 'core-autoinsert)
-(require 'core-treemacs)
-(require 'core-tips)
+;; (require 'core-custom) ;; if custom some variable in personal, please load at the next line
+;; (require 'core-ui)
+;; (require 'core-project) ;; must load before core-frontend
+;; (require 'core-editor)
+;; (require 'core-env-path)
+;; (require 'core-org)
+;; (require 'core-chinese)
+;; (require 'core-autoinsert)
+;; (require 'core-treemacs)
+;; (require 'core-tips)
 
-(message "Loading optional modules...")
-(if (file-exists-p config-modules-file)
-    (progn
-      (load config-modules-file))
-  (message "Missing optional modules file %s" config-modules-file)
-  (message "You can get started by copying the example file from sample/loaded-modules/el"))
+;; (message "Loading optional modules...")
+;; (if (file-exists-p config-modules-file)
+;;     (progn
+;;       (load config-modules-file))
+;;   (message "Missing optional modules file %s" config-modules-file)
+;;   (message "You can get started by copying the example file from sample/loaded-modules/el"))
 
-;; load the personal modules, filter the file 'config-modules-file'
-(when (file-exists-p config-personal-dir)
-  (message "Loading personal modules in %s..." config-personal-dir)
-  (mapc 'load (delete
-               config-modules-file
-               (directory-files config-personal-dir 't "^[^#\.].*\\.el$"))))
+;; ;; load the personal modules, filter the file 'config-modules-file'
+;; (when (file-exists-p config-personal-dir)
+;;   (message "Loading personal modules in %s..." config-personal-dir)
+;;   (mapc 'load (delete
+;;                config-modules-file
+;;                (directory-files config-personal-dir 't "^[^#\.].*\\.el$"))))
 
 ;; Must be loaded after 'custom.el'
-(require 'core-frontend)
-(require 'core-terminal)
-(require 'core-window)
+;; (require 'core-frontend)
+;; (require 'core-terminal)
+;; (require 'core-window)
 
 (message "Emacs is ready for %s..." current-user)
 
 ;; Patch security vulnerability in Emacs versions older than 25.3
-(when (version< emacs-version "25.3")
-  (with-eval-after-load "enriched"
-    (defun enriched-decode-display-prop (start end &optional param)
-      (list start end))))
+;; (when (version< emacs-version "25.3")
+;;   (with-eval-after-load "enriched"
+;;     (defun enriched-decode-display-prop (start end &optional param)
+;;       (list start end))))
 
 ;; Disable 'C-z'
 ;; 'C-s' resume from 'C-z'
@@ -103,6 +108,6 @@
 ;; enable 'pdf-tools'
 ;;(pdf-tools-install)
 
-(wen-eval-after-init
- ;; greet the use with some useful tip
- (run-at-time 5 nil 'wen-tip-of-the-day))
+;; (wen-eval-after-init
+;;  ;; greet the use with some useful tip
+;;  (run-at-time 5 nil 'wen-tip-of-the-day))
