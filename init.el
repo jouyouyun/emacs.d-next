@@ -27,12 +27,8 @@
   "Emacs core modules dir.")
 (defvar config-modules-dir (expand-file-name "modules" config-dir)
   "Emacs optional modules dir.")
-(defvar config-elpa-dir (expand-file-name "elpa" config-dir)
-  "Emacs optional elpa dir.")
 (defvar config-personal-dir (expand-file-name "personal" config-dir)
   "Emacs personal modules dir.")
-(defvar config-personal-package-dir (expand-file-name "packages" config-personal-dir)
-  "Emacs personal packages dir.")
 (defvar config-savefile-dir (expand-file-name "savefile" config-dir)
   "Emacs automatically generated files, such as: recently, history etc.")
 (defvar config-modules-file (expand-file-name "loaded-modules.el" config-personal-dir)
@@ -46,9 +42,6 @@
 (unless (file-exists-p config-savefile-dir)
   (make-directory config-savefile-dir))
 
-(unless (file-exists-p config-elpa-dir)
-  (make-directory config-elpa-dir))
-
 ;; add configuration's directories to `load-path'
 (add-to-list 'load-path config-core-dir)
 (add-to-list 'load-path config-modules-dir)
@@ -56,13 +49,15 @@
 ;; reduce the frequency of garbage collection by making it happen on
 ;; each 50MB of allocated data (the default is on every 0.76MB)
 (setq gc-cons-threshold 50000000)
+;; 增大同LSP服务器交互时的读取文件的大小
+(setq read-process-output-max (* 1024 1024 128)) ;; 128MB
 
 ;; proxy
 ;;(setq url-gateway-method 'socks)
 ;;(setq socks-server '("Server" "127.0.0.1" 1080 5))
 
 (message "Loading core modules...")
-(require 'core-packages)
+(require 'core-straight)
 ;; (require 'core-custom) ;; if custom some variable in personal, please load at the next line
 ;; (require 'core-ui)
 ;; (require 'core-project) ;; must load before core-frontend
@@ -104,9 +99,6 @@
 ;; Disable 'C-z'
 ;; 'C-s' resume from 'C-z'
 (global-unset-key (kbd "C-z"))
-
-;; enable 'pdf-tools'
-;;(pdf-tools-install)
 
 ;; (wen-eval-after-init
 ;;  ;; greet the use with some useful tip
