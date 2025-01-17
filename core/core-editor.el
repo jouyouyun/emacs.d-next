@@ -8,36 +8,6 @@
 
 ;;; Code:
 
-;;; Display
-;; auto break line
-(global-visual-line-mode 1)
-
-;;; Window&Frame
-;; ediff - don't start another frame
-(require 'ediff)
-(setq ediff-window-setup-function 'ediff-setup-windows-plain)
-
-;; clean up obsolete buffers automatically
-(require 'midnight)
-
-;; ace-window
-(use-package ace-window
-  :straight t
-  :ensure t
-  :bind (("C-x o" . ace-window)
-         ([remap other-window] . ace-window))
-  )
-
-;; enable winner-mode to manage window configurations
-;; C-c left --> winner-undo
-;; C-c right --> winner-redo
-(use-package winner-mode
-  :ensure t
-  :straight t
-  :config
-  (winner-mode +1)
-  )
-
 ;;; Selected
 ;; delete the selection with a keypress
 (delete-selection-mode t)
@@ -93,85 +63,44 @@
   )
 
 ;; smart paring for all
-(require 'smartparens-config)
-(setq sp-base-key-bindings 'paredit)
-(setq sp-autoskip-closing-pair 'always)
-(setq sp-hybrid-kill-entire-symbol nil)
-(sp-use-paredit-bindings)
-(dolist (hook (list
-               'c-mode-common-hook
-               'c-mode-hook
-               'c++-mode-hook
-               'java-mode-hook
-               'haskell-mode-hook
-               'emacs-lisp-mode-hook
-               'lisp-interaction-mode-hook
-               'lisp-mode-hook
-               'maxima-mode-hook
-               'ielm-mode-hook
-               'sh-mode-hook
-               'makefile-gmake-mode-hook
-               'php-mode-hook
-               'python-mode-hook
-               'js-mode-hook
-               'go-mode-hook
-               'qml-mode-hook
-               'jade-mode-hook
-               'css-mode-hook
-               'ruby-mode-hook
-               'coffee-mode-hook
-               'rust-mode-hook
-               'qmake-mode-hook
-               'lua-mode-hook
-               'swift-mode-hook
-               'minibuffer-inactive-mode-hook
-               ))
-  (add-hook hook '(lambda () (smartparens-mode 1))))
-
-;; highlight parentheses
-(use-package highlight-parentheses
+(use-package smartparens-config
   :ensure t
   :straight t
   :config
-  (define-globalized-minor-mode global-highlight-parentheses-mode
-    highlight-parentheses-mode
-    (lambda ()
-      (highlight-parentheses-mode t)))
-  (global-highlight-parentheses-mode t)
-  )
-
-;; disable annoying blink-matching-paren
-(setq blink-matching-paren t)
-
-;; highlight the current line
-(global-hl-line-mode +1)
-
-(require 'volatile-highlights)
-(volatile-highlights-mode t)
-(diminish 'volatile-highlights-mode)
-
-;; note - this should be after volatile-highlights is required
-;; add the ability to cut the current line, without marking it
-(require 'rect)
-(require 'crux)
-(crux-with-region-or-line kill-region)
-
-;; enable narrowing commands
-(put 'narrow-to-region 'disabled nil)
-(put 'narrow-to-page 'disabled nil)
-(put 'narrow-to-defun 'disabled nil)
-
-;; enabled change region case commands
-(put 'upcase-region 'disabled nil)
-(put 'downcase-region 'disabled nil)
-
-;; diff-hl
-(use-package diff-hl
-  :ensure t
-  :straight t
-  :config
-  (global-diff-hl-mode +1)
-  :hook ((dired-mode-hook . diff-hl-dired-mode))
+  (setq sp-base-key-bindings 'paredit)
+  (setq sp-autoskip-closing-pair 'always)
+  (setq sp-hybrid-kill-entire-symbol nil)
+  (sp-use-paredit-bindings)
+  (dolist (hook (list
+                 'c-mode-common-hook
+                 'c-mode-hook
+                 'c++-mode-hook
+                 'java-mode-hook
+                 'haskell-mode-hook
+                 'emacs-lisp-mode-hook
+                 'lisp-interaction-mode-hook
+                 'lisp-mode-hook
+                 'maxima-mode-hook
+                 'ielm-mode-hook
+                 'sh-mode-hook
+                 'makefile-gmake-mode-hook
+                 'php-mode-hook
+                 'python-mode-hook
+                 'js-mode-hook
+                 'go-mode-hook
+                 'qml-mode-hook
+                 'jade-mode-hook
+                 'css-mode-hook
+                 'ruby-mode-hook
+                 'coffee-mode-hook
+                 'rust-mode-hook
+                 'qmake-mode-hook
+                 'lua-mode-hook
+                 'swift-mode-hook
+                 'minibuffer-inactive-mode-hook
+                 )))
+    :hook
+    (hook . (lambda () (smartparens-mode 1)))
   )
 
 ;; easy-kill
@@ -415,6 +344,7 @@ indent yanked text (with prefix arg don't indent)."
     (cl-some (lambda (dir)
                (string-prefix-p dir file-dir))
              (mapcar 'file-truename (list config-savefile-dir package-user-dir)))))
+
 (use-package recentf
   :ensure t
   :straight t
@@ -518,6 +448,11 @@ and file 'filename' will be opened and cursor set on line 'linenumber'"
   (setq tab-always-indent 'complete)
   )
 
+(defun wen-enable-flyspell ()
+  "Enable command `flyspell-mode' if `wen-flyspell' is not nil."
+  (when (and wen-flyspell (executable-find ispell-program-name))
+    (flyspell-mode +1)))
+
 ;; flyspell-mode does spell-checking on the fly as you type
 ;; TODO(jouyouyun): install 'aspell-en'
 (use-package flyspell
@@ -528,45 +463,9 @@ and file 'filename' will be opened and cursor set on line 'linenumber'"
         ispell-extra-args '("--sug-mode=ultra"))
   ;; use American English as ispell default dictionary to solve 'zh_CN'
   (ispell-change-dictionary "american" t)
+  :hook
+  (text-mode-hook . wen-enable-flyspell)
   )
-
-;; whitespace-mode config
-(use-package whitespace
-  :ensure t
-  :straight t
-  :config
-  (setq whitespace-line-column 80) ;; limit line length
-  (setq whitespace-style '(face tabs empty trailing lines-tail))
-  )
-
-;; ;; set tab color
-;; (global-whitespace-mode)
-;; (setq whitespace-style '(face tabs tab-mark trailing))
-;; (custom-set-faces
-;;  '(whitespace-tab ((t (:foreground "#9999CC")))))
-
-;; (setq whitespace-display-mappings
-;;       '((tab-mark 9 [124 9] [92 9])))
-
-(defun wen-enable-flyspell ()
-  "Enable command `flyspell-mode' if `wen-flyspell' is not nil."
-  (when (and wen-flyspell (executable-find ispell-program-name))
-    (flyspell-mode +1)))
-
-(defun wen-cleanup-maybe ()
-  "Invoke `whitespace-cleanup' if `wen-clean-whitespace-on-save' is not nil."
-  (when wen-clean-whitespace-on-save
-    (whitespace-cleanup)))
-
-(defun wen-enable-whitespace ()
-  "Enable `whitespace-mode' if `wen-whitespace' is not nil."
-  (when wen-whitespace
-    ;; keep the whitespace decent all the time (in this buffer)
-    (add-hook 'before-save-hook 'wen-cleanup-maybe nil t)
-    (whitespace-mode +1)))
-
-(add-hook 'text-mode-hook 'wen-enable-flyspell)
-(add-hook 'text-mode-hook 'wen-enable-whitespace)
 
 ;; operate-on-number
 (require 'operate-on-number)
