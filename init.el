@@ -58,15 +58,18 @@
 
 (message "Loading core modules...")
 (require 'core-straight)
-;; (require 'core-custom) ;; if custom some variable in personal, please load at the next line
-;; (require 'core-ui)
-;; (require 'core-project) ;; must load before core-frontend
-;; (require 'core-editor)
+(require 'core-custom) ;; if custom some variable in personal, please load at the next line
+(require 'core-editor)
+(require 'core-autoinsert)
+(require 'core-ui)
+(require 'core-window)
+(require 'core-project) ;; must load before core-ivy
+(require 'core-ivy)
 ;; (require 'core-env-path)
-;; (require 'core-org)
-;; (require 'core-chinese)
-;; (require 'core-autoinsert)
-;; (require 'core-treemacs)
+(require 'core-org)
+(require 'core-ansi-term)
+(require 'core-chinese)
+(require 'core-treemacs)
 ;; (require 'core-tips)
 
 ;; (message "Loading optional modules...")

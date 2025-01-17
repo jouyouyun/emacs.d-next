@@ -34,12 +34,12 @@
 ;; enable winner-mode to manage window configurations
 ;; C-c left --> winner-undo
 ;; C-c right --> winner-redo
-(use-package winner-mode
-  :ensure t
-  :straight t
-  :config
-  (winner-mode +1)
-  )
+;; (use-package winner-mode
+;;   :ensure t
+;;   :straight t
+;;   :config
+;;   (winner-mode +1)
+;;   )
 
 ;; use shift + arrow keys to switch between visible buffers
 (require 'windmove)
@@ -55,6 +55,26 @@
   (add-to-list 'super-save-triggers 'ace-window)
   (super-save-mode +1)
   )
+
+;; meaningful names for buffers with the same name
+(require 'uniquify)
+(setq uniquify-buffer-name-style 'forward)
+(setq uniquify-separator "/")
+(setq uniquify-after-kill-buffer-p t)    ; rename after killing uniquified
+(setq uniquify-ignore-buffers-re "^\\*") ; don't muck with special buffers
+
+(defadvice set-buffer-major-mode (after set-major-mode activate compile)
+  "Set buffer major mode according to `auto-mode-alist'."
+  (let* ((name (buffer-name buffer))
+         (mode (assoc-default name auto-mode-alist 'string-match)))
+    (when (and mode (consp mode))
+      (setq mode (car mode)))
+    (with-current-buffer buffer (if mode (funcall mode)))))
+
+(set-default 'imenu-auto-rescan t)
+
+;; enable erase-buffer command
+(put 'erase-buffer 'disabled nil)
 
 (provide 'core-window)
 

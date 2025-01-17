@@ -60,7 +60,11 @@
   :ensure t
   :straight t
   :config
+<<<<<<< HEAD
   (load-theme github-modern t)
+=======
+  (load-theme 'github-modern t)
+>>>>>>> 22d3a4c (core: add ui/window/chinese/terminal)
   )
 ;; use zenburn theme
 ;; (use-package zenburn-theme
@@ -91,6 +95,7 @@
   )
 
 ;; change frame opacity
+<<<<<<< HEAD
 (use-package seethru
   :ensure t
   :straight t
@@ -101,6 +106,19 @@
   ;; hold control while wheeling mouse to change transparency
   (seethru-mouse-bindings "C")
   )
+=======
+;; depends: shadchen
+;; (use-package seethru
+;;   :ensure t
+;;   :straight t
+;;   ;; "C-c 8" and "C-c 9"
+;;   :bind  ("C-c 0" . (lambda () (interactive) (seethru 100)))
+;;   :config
+;;   (seethru-recommended-keybinds "C-c")
+;;   ;; hold control while wheeling mouse to change transparency
+;;   (seethru-mouse-bindings "C")
+;;   )
+>>>>>>> 22d3a4c (core: add ui/window/chinese/terminal)
 
 ;; Compilation from Emacs
 (defun wen-colorize-compilation-buffer ()
@@ -174,15 +192,34 @@
 ;; highlight the current line
 (global-hl-line-mode +1)
 
+<<<<<<< HEAD
 (require 'volatile-highlights)
 (volatile-highlights-mode t)
 (diminish 'volatile-highlights-mode)
+=======
+(use-package volatile-highlights
+  :ensure t
+  :straight t
+  :config
+  (volatile-highlights-mode t)
+  (diminish 'volatile-highlights-mode)
+  )
+>>>>>>> 22d3a4c (core: add ui/window/chinese/terminal)
 
 ;; note - this should be after volatile-highlights is required
 ;; add the ability to cut the current line, without marking it
 (require 'rect)
+<<<<<<< HEAD
 (require 'crux)
 (crux-with-region-or-line kill-region)
+=======
+(use-package crux
+  :ensure t
+  :straight t
+  :config
+  (crux-with-region-or-line kill-region)
+  )
+>>>>>>> 22d3a4c (core: add ui/window/chinese/terminal)
 
 ;; enable narrowing commands
 (put 'narrow-to-region 'disabled nil)

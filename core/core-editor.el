@@ -32,12 +32,16 @@
 
 ;; smart move
 (use-package mwim
+  :ensure t
+  :straight t
   :bind
   ("C-a" . mwim-beginning-of-code-or-line)
   ("C-e" . mwim-end-of-code-or-line))
 
 ;; multi-cursor
 (use-package multiple-cursors
+  :ensure t
+  :straight t
   :bind (("C-S-c C-S-c" . mc/edit-lines)
          ("C->" . mc/mark-next-like-this)
          ("C-<" . mc/mark-previous-like-this)
@@ -45,7 +49,15 @@
          ("C-c C-s" . mc/skip-to-next-like-this))
   )
 
+
+(use-package popup
+  :ensure t
+  :straight t
+  )
+
 (use-package ace-popup-menu
+  :ensure t
+  :straight t
   :config
   (ace-popup-menu-mode 1)
   (setq ace-popup-menu-show-pane-header t)
@@ -53,17 +65,25 @@
 
 ;; browse-kill-ring
 (use-package browse-kill-ring
+  :ensure t
+  :straight t
   :bind ("M-y" . browse-kill-ring)
   )
 
 (use-package whole-line-or-region
-  :bind (global-set-key (kbd "M-w") 'whole-line-or-region-copy-region-as-kill)
+  :ensure t
+  :straight t
+  :bind ("M-w" . whole-line-or-region-copy-region-as-kill)
   ;; Comment or uncomment
   ;; (global-set-key (kbd "M-;") 'whole-line-or-region-comment-dwim-2)
   )
 
 ;; smart paring for all
+<<<<<<< HEAD
 (use-package smartparens-config
+=======
+(use-package smartparens
+>>>>>>> 22d3a4c (core: add ui/window/chinese/terminal)
   :ensure t
   :straight t
   :config
@@ -120,6 +140,8 @@
 
 ;; From: https://huadeyu.tech/tools/emacs-setup-notes.html
 (use-package rainbow-mode
+  :ensure t
+  :straight t
   :config
   (progn
     (defun @-enable-rainbow ()
@@ -128,6 +150,8 @@
     ))
 
 (use-package rainbow-delimiters
+  :ensure t
+  :straight t
   :config
   (progn
     (defun @-enable-rainbow-delimiters ()
@@ -152,8 +176,8 @@
   (global-anzu-mode +1)
   ;; enable anzu minor mode
   ;; (anzu-mode +1)
-  :bind(([remap query-replace] 'anzu-query-replace)
-        ([remap query-replace-regexp] 'anzu-query-replace-regexp)
+  :bind(([remap query-replace] . anzu-query-replace)
+        ([remap query-replace-regexp] . anzu-query-replace-regexp)
         ;; anzu-query-replace-at-cursor for all file
         ;;anzu-query-replace-at-cursor-thing for this function or segment region
         ("M-%" . anzu-query-replace)
@@ -301,9 +325,14 @@ indent yanked text (with prefix arg don't indent)."
 (setq auto-save-file-name-transforms
       `((".*" ,temporary-file-directory t)))
 
+(use-package diminish
+  :ensure t
+  :straight t
+  )
 ;; autosave the undo-tree history
 (use-package undo-tree
   :ensure t
+  :straight t
   :config
   (progn
     (global-undo-tree-mode)
@@ -403,6 +432,8 @@ and file 'filename' will be opened and cursor set on line 'linenumber'"
 (add-to-list 'auto-mode-alist '("\\.zsh\\'" . shell-script-mode))
 
 (use-package neotree
+  :ensure t
+  :straight t
   :custom
   (neo-theme 'nerd2)
   :config
@@ -438,6 +469,8 @@ and file 'filename' will be opened and cursor set on line 'linenumber'"
   (editorconfig-mode 1))
 
 (use-package smart-tab
+  :ensure t
+  :straight t
   :config
   (progn
     (defun @-enable-smart-tab ()
@@ -468,7 +501,7 @@ and file 'filename' will be opened and cursor set on line 'linenumber'"
   )
 
 ;; operate-on-number
-(require 'operate-on-number)
+;; (require 'operate-on-number)
 (use-package smartrep
   :ensure t
   :straight t
