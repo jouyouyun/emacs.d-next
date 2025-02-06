@@ -42,6 +42,8 @@
 (unless (file-exists-p config-savefile-dir)
   (make-directory config-savefile-dir))
 
+(setq debug-on-error t)
+
 ;; add configuration's directories to `load-path'
 (add-to-list 'load-path config-core-dir)
 (add-to-list 'load-path config-modules-dir)
@@ -59,6 +61,7 @@
 (message "Loading core modules...")
 (require 'core-straight)
 (require 'core-custom) ;; if custom some variable in personal, please load at the next line
+;; Must be loaded after 'custom.el'
 (require 'core-editor)
 (require 'core-autoinsert)
 (require 'core-ui)
@@ -70,26 +73,20 @@
 (require 'core-ansi-term)
 (require 'core-chinese)
 (require 'core-treemacs)
-;; (require 'core-tips)
 
 ;; (message "Loading optional modules...")
-;; (if (file-exists-p config-modules-file)
-;;     (progn
-;;       (load config-modules-file))
-;;   (message "Missing optional modules file %s" config-modules-file)
-;;   (message "You can get started by copying the example file from sample/loaded-modules/el"))
+(if (file-exists-p config-modules-file)
+    (progn
+      (load config-modules-file))
+  (message "Missing optional modules file %s" config-modules-file)
+  (message "You can get started by copying the example file from sample/loaded-modules/el"))
 
-;; ;; load the personal modules, filter the file 'config-modules-file'
-;; (when (file-exists-p config-personal-dir)
-;;   (message "Loading personal modules in %s..." config-personal-dir)
-;;   (mapc 'load (delete
-;;                config-modules-file
-;;                (directory-files config-personal-dir 't "^[^#\.].*\\.el$"))))
-
-;; Must be loaded after 'custom.el'
-;; (require 'core-frontend)
-;; (require 'core-terminal)
-;; (require 'core-window)
+;; load the personal modules, filter the file 'config-modules-file'
+(when (file-exists-p config-personal-dir)
+  (message "Loading personal modules in %s..." config-personal-dir)
+  (mapc 'load (delete
+               config-modules-file
+               (directory-files config-personal-dir 't "^[^#\.].*\\.el$"))))
 
 (message "Emacs is ready for %s..." current-user)
 

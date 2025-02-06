@@ -25,3 +25,10 @@ transcript.txt
 /eln-cache
 /elgrep-data.el*
 /ellama-sessions
+.dap-breakpoints
+.aider*
+.env
+/codeium
+/node_modules
+package-lock.json
+package.json

@@ -79,11 +79,7 @@
   )
 
 ;; smart paring for all
-<<<<<<< HEAD
-(use-package smartparens-config
-=======
 (use-package smartparens
->>>>>>> 22d3a4c (core: add ui/window/chinese/terminal)
   :ensure t
   :straight t
   :config

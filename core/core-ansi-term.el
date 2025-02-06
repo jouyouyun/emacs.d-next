@@ -8,8 +8,6 @@
 
 ;;; Code:
 
-<<<<<<< HEAD
-=======
 (global-set-key [mouse-4] (lambda () (interactive) (scroll-down 1)))
 (global-set-key [mouse-5] (lambda () (interactive) (scroll-up 1)))
 
@@ -24,7 +22,6 @@
 
 ;; Start a regular shell if you prefer that.
 (global-set-key (kbd "C-x M-m") 'shell)
->>>>>>> 22d3a4c (core: add ui/window/chinese/terminal)
 
 ;; ansi-term configs
 ;; diretory tracking: add the following code to '.zshrc'
