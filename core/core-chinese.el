@@ -63,8 +63,8 @@
         '((:name "tsinghua" :file "~/.local/share/pyim/dict/pyim-tsinghua-dict.pyim")
           (:name "compute noun" :file "~/.local/share/pyim/dict/compute_noun.pyim")
           (:name "compute words" :file "~/.local/share/pyim/dict/compute_words.pyim")))
-  :hook
-  (emacs-startup-hook . (lambda () (pyim-restart-1 t)))
+  ;; :hook
+  ;; (emacs-startup-hook . (lambda () (pyim-restart-1 t)))
   )
 
 >>>>>>> 22d3a4c (core: add ui/window/chinese/terminal)

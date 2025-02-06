@@ -30,6 +30,10 @@
 ;;; Code:
 
 
+(use-package org
+  :ensure t
+  :straight t
+  )
 ;; Fix '<s Tab' not work
 ;; From: https://emacs.stackexchange.com/questions/46988/why-do-easy-templates-e-g-s-tab-in-org-9-2-not-work
 ;; The new mechanism is called structured template.
@@ -297,19 +301,6 @@
                 cal-china-x-general-holidays
                 ))
   )
-
-;; For Logseq
-;; (use-package org-protocol
-;;   :ensure org
-;;   :config
-;;   (add-to-list 'org-protocol-protocol-alist
-;;                '("org-find-file" :protocol "find-file" :function org-protocol-find-file :kill-client nil))
-;;   (defun org-protocol-find-file (fname)
-;;     "Process org-protocol://find-file?path= style URL."
-;;     (let ((f (plist-get (org-protocol-parse-parameters fname nil '(:path)) :path)))
-;;       (find-file f)
-;;       (raise-frame)
-;;       (select-frame-set-input-focus (selected-frame)))))
 
 ;; org-todo 中设置 scheduled 和 deadline 时，日期中的 week 会根据系统语言本地化。
 ;; 这会导致这些日期在不同的语言环境下会不生效，也不被 logseq 识别。
