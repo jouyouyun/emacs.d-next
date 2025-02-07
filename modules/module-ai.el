@@ -1,14 +1,14 @@
-;;; module-codeium --- codeium configurations.
+;;; module-ai --- AI configurations.
 ;;
 ;; Author: jouyouyun <jouyouwen717@gmail.com>
 
 ;;; Commentary
 ;;
-;; This file sets up codeium.
+;; This file sets up ai.
 
 ;;; Code:
 
-;; we recommend using use-package to organize your init.el
+;; codeium
 (use-package codeium
     :straight '(:type git :host github :repo "Exafunction/codeium.el")
     :init
@@ -67,6 +67,68 @@
     (setq codeium/document/text 'my-codeium/document/text)
     (setq codeium/document/cursor_offset 'my-codeium/document/cursor_offset))
 
-(provide 'module-codeium)
+;; aider
+(use-package aider
+  :straight (:host github :repo "tninja/aider.el" :files ("aider.el"))
+  :config
+  ;; Use claude-3-5-sonnet cause it is best in aider benchmark
+  (setq aider-args wen-ai-aider-args)
+  (setenv wen-ai-aider-key-env wen-ai-aider-key)
+  ;; Or use chatgpt model since it is most well known
+  ;; (setq aider-args '("--model" "o3-mini"))
+  ;; (setenv "OPENAI_API_KEY" <your-openai-api-key>)
+  ;; Or use gemini v2 model since it is very good and free
+  ;; (setq aider-args '("--model" "gemini/gemini-exp-1206"))
+  ;; (setenv "GEMINI_API_KEY" <your-gemini-api-key>)
+  ;; Or use your personal config file
+  ;; (setq aider-args `("--config" ,(expand-file-name "~/.aider.conf.yml")))
+  ;; ;;
+  ;; Optional: Set a key binding for the transient menu
+  ;; (global-set-key (kbd "C-c a") 'aider-transient-menu)
+  )
 
-;;; module-codeium.el ends here
+;; gptel
+(use-package gptel
+  :ensure t
+  :straight t
+  :config
+  ;; use groq as default backend
+  (setq gptel-model   'mixtral-8x7b-32768
+        gptel-backend
+        (gptel-make-openai "Groq"
+          :host "api.groq.com"
+          :endpoint "/openai/v1/chat/completions"
+          :stream t
+          :key wen-ai-gptel-groq-key
+          :models '(llama-3.1-70b-versatile
+                    llama3-70b-8192
+                    llama-3.1-8b-instant
+                    llama3-8b-8192
+                    mixtral-8x7b-32768
+                    gemma-7b-it)))
+  )
+
+;; ellama
+(use-package llm
+  :ensure t
+  :straight t
+  )
+(use-package ellama
+  :ensure t
+  :straight t
+  :init
+  ;; setup key bindings
+  ;; (setopt ellama-keymap-prefix "C-c e")
+  ;; language you want ellama to translate to
+  (setopt ellama-language "Chinese")
+  ;; could be llm-openai for example
+  (require 'llm-gemini)
+  (setopt ellama-provider
+          (make-llm-gemini
+           :key wen-ai-llm-gemini-key
+           :chat-model wen-ai-llm-gemini-model))
+  )
+
+(provide 'module-ai)
+
+;;; module-ai.el ends here

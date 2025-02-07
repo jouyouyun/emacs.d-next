@@ -21,7 +21,9 @@
         company-frontends '(company-preview-frontend)
         ;; also get a drop down
         ;; company-frontends '(company-pseudo-tooltip-frontend company-preview-frontend)
-        ))
+        )
+    (setq company-auto-complete t)
+    )
 
 (use-package lsp-mode
   :ensure t
@@ -46,7 +48,7 @@
   ;; we will got error "Error from the Language Server: FileNotFoundError" if `create-lockfiles' is non-nil
   (setq create-lockfiles nil)
   :hook (;; replace XXX-mode with concrete major-mode(e. g. python-mode)
-         (go-mode . lsp-deferred)
+         (go-mode . lsp)
          (python-mode . lsp)
          (c++-mode . lsp)
          (c-mode . lsp)
@@ -143,13 +145,20 @@
 (defun lsp-go-install-save-hooks ()
   (add-hook 'before-save-hook #'lsp-format-buffer t t)
   (add-hook 'before-save-hook #'lsp-organize-imports t t))
-(add-hook 'go-mode-hook #'lsp-go-install-save-hooks)
-;; gopls
-(lsp-register-custom-settings
- '(("gopls.completeUnimported" t t)
-   ("gopls.staticcheck" t t)))
-;; fix 'https://github.com/emacs-lsp/lsp-mode/issues/4225'
-(setq lsp-go-server-path "gopls")
+
+(use-package go-mode
+  :ensure t
+  :straight t
+  :config
+  (add-hook 'go-mode-hook 'lsp-deferred)
+  (add-hook 'go-mode-hook #'lsp-go-install-save-hooks)
+  ;; gopls
+  (lsp-register-custom-settings
+   '(("gopls.completeUnimported" t t)
+     ("gopls.staticcheck" t t)))
+  ;; fix 'https://github.com/emacs-lsp/lsp-mode/issues/4225'
+  (setq lsp-go-server-path "gopls")
+  )
 
 ;; Fix json-serialize encode wrong.
 ;; (json-serialize (list :processId nil) :null-object nil :false-object :json-false))
