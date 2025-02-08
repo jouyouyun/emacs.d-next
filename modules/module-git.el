@@ -17,12 +17,12 @@
            ("C-x M-g" . magit-dispatch))
     )
 
-(use-package git-gutter+
-  :ensure t
-  :straight t
-  :config
-  (progn
-    (global-git-gutter+-mode)))
+;; (use-package git-gutter+
+;;   :ensure t
+;;   :straight t
+;;   :config
+;;   (progn
+;;     (global-git-gutter+-mode)))
 
 (provide 'module-git)
 

@@ -1,12 +1,21 @@
-;;; module-compile-json --- Compile json configurations.
+;;; module-tags --- Source tags configurations.
 ;;
 ;; Author: jouyouyun <jouyouwen717@gmail.com>
 
 ;;; Commentary
 ;;
-;; This file sets up compile json.
+;; This file sets up source tags.
 
 ;;; Code:
+
+;; gtags
+;;   gtags-mode : To enable the global minor mode.
+;;   gtags-mode-create : To create a gtags database in case it doesn't exist for the current project.
+;;   gtags-mode-update : To manually update an existent database; specially useful if the project has been modified outside emacs.
+(use-package gtags-mode
+  :ensure t
+  :straight t
+  :hook ((emacs-startup . gtags-mode)))
 
 (defun wen-ccls-create-compile-json-cmake (dir)
   (let ((default-directory dir))
@@ -54,6 +63,6 @@
   (wen-ccls-copy-ccls (read-directory-name
                        "ccls: top of source tree:" default-directory)))
 
-(provide 'module-compile-json)
+(provide 'module-tags)
 
-;;; module-compile-json.el ends here
+;;; module-tags.el ends here

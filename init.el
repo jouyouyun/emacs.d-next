@@ -42,7 +42,14 @@
 (unless (file-exists-p config-savefile-dir)
   (make-directory config-savefile-dir))
 
-(setq debug-on-error t)
+;; show backtrace when error
+;; (setq debug-on-error t)
+
+;; disable lock files
+;; we will got error "Error from the Language Server: FileNotFoundError" if `create-lockfiles' is non-nil
+(setq create-lockfiles nil)
+;; set warning message buffer level
+(setq warning-minimum-level :error)
 
 ;; add configuration's directories to `load-path'
 (add-to-list 'load-path config-core-dir)
@@ -73,6 +80,7 @@
 (require 'core-ansi-term)
 (require 'core-chinese)
 (require 'core-treemacs)
+(require 'core-modes)
 
 ;; (message "Loading optional modules...")
 (if (file-exists-p config-modules-file)

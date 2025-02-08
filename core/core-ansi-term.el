@@ -65,7 +65,6 @@
      ;; So reset the keyboard shortcut.
      (define-key term-raw-map (kbd "C-y") 'term-paste)))
 
-
 (provide 'core-ansi-term)
 
 ;;; core-ansi-term.el ends here

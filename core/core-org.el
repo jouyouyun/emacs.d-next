@@ -106,19 +106,19 @@
 (eval-after-load "org"
   '(require 'ox-gfm nil t))
 
-;; markdown review
-(defun my-flymd-browser-function (url)
-  (let ((browser-url-browser-function 'browse-url-firefox))
-    (browse-url url)))
-;; flymd
-;; see: http://devlz.com/2016/08/07/emacs-Markdown%E5%AE%9E%E6%97%B6%E9%A2%84%E8%A7%88/
-(use-package flymd
-  :ensure t
-  :straight t
-  :config
-  (setq flymd-browser-function 'my-flymd-browser-function)
-  (setq flymd-output-directory "/tmp")
-  )
+;; ;; markdown review
+;; (defun my-flymd-browser-function (url)
+;;   (let ((browser-url-browser-function 'browse-url-firefox))
+;;     (browse-url url)))
+;; ;; flymd
+;; ;; see: http://devlz.com/2016/08/07/emacs-Markdown%E5%AE%9E%E6%97%B6%E9%A2%84%E8%A7%88/
+;; (use-package flymd
+;;   :ensure t
+;;   :straight t
+;;   :config
+;;   (setq flymd-browser-function 'my-flymd-browser-function)
+;;   (setq flymd-output-directory "/tmp")
+;;   )
 
 ;; https://github.com/alphapapa/org-web-tools
 (use-package request

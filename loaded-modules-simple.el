@@ -1,6 +1,8 @@
 (require 'module-custom)
 (require 'module-lsp)
-(require 'module-compile-json)
+(require 'module-tags)
+(require 'module-git)
+(require 'module-picture)
 
 (setq wen-ai-aider-args '("--no-auto-commits" "--model" ""))
 (setq wen-ai-aider-key-env "")
@@ -10,9 +12,11 @@
 (setq wen-ai-llm-gemini-model "")
 (require 'module-ai)
 
-(require 'module-picture)
-
-(setq wen-obsidian-knowledge "~/Documents/Vaults/Knowledge-Reborn/")
-(setq wen-obsidian-inbox "~/Documents/Vaults/Daily/Tasks/")
-(setq wen-obsidian-daily "~/Documents/Vaults/Daily/Daily/")
+(setq wen-obsidian-knowledge "~/Documents/Knowledge/")
+(setq wen-obsidian-inbox "~/Documents/Tasks/")
+(setq wen-obsidian-daily "~/Documents/Daily//")
 (require 'module-obsidian)
+
+(setq wen-hugo-github-repo "~/Documents/Hugo")
+(setq wen-hugo-github-url "https://yourid.github.io")
+(require 'module-hugo)

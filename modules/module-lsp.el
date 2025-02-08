@@ -22,8 +22,36 @@
         ;; also get a drop down
         ;; company-frontends '(company-pseudo-tooltip-frontend company-preview-frontend)
         )
-    (setq company-auto-complete t)
+    ;; (setq company-auto-complete t)
     )
+
+;;; GoLang
+;; Dependencies:
+;;     github.com/klauspost/asmfmt/cmd/asmfmt
+;;     github.com/go-delve/delve/cmd/dlv
+;;     github.com/kisielk/errcheck
+;;     github.com/davidrjenni/reftools/cmd/fillstruct
+;;     github.com/mdempsky/gocode
+;;     github.com/stamblerre/gocode --- gocode for module
+;;     github.com/rogpeppe/godef
+;;     github.com/zmb3/gogetdoc
+;;     golang.org/x/tools/cmd/goimports
+;;     golang.org/x/lint/golint
+;;     golang.org/x/tools/gopls@latest
+;;     github.com/golangci/golangci-lint/cmd/golangci-lint
+;;     github.com/fatih/gomodifytags
+;;     golang.org/x/tools/cmd/gorename
+;;     github.com/jstemmer/gotags
+;;     golang.org/x/tools/cmd/guru
+;;     github.com/josharian/impl
+;;     honnef.co/go/tools/cmd/keyify
+;;     github.com/fatih/motion
+;;     github.com/koron/iferr
+;; Set up before-save hooks to format buffer and add/delete imports.
+;; Make sure you don't have other gofmt/goimports hooks enabled.
+(defun lsp-go-install-save-hooks ()
+  (add-hook 'before-save-hook #'lsp-format-buffer t t)
+  (add-hook 'before-save-hook #'lsp-organize-imports t t))
 
 (use-package lsp-mode
   :ensure t
@@ -40,15 +68,21 @@
   ;; disable lsp indent
   ;; (lsp-enable-indentation nil)
   :config
+  ;; gopls
+  (lsp-register-custom-settings
+   '(("gopls.completeUnimported" t t)
+     ("gopls.staticcheck" t t)))
+  ;; fix 'https://github.com/emacs-lsp/lsp-mode/issues/4225'
+  (setq lsp-go-server-path "gopls")
   ;; Configuration to fix LSP
   ;; we will got error "Wrong type argument: sequencep" from `eldoc-message' if `lsp-enable-eldoc' is non-nil
   (setq lsp-enable-eldoc nil)
   ;; avoid popup warning buffer if lsp can't found root directory (such as edit simple *.py file)
   (setq lsp-message-project-root-warning t)
-  ;; we will got error "Error from the Language Server: FileNotFoundError" if `create-lockfiles' is non-nil
-  (setq create-lockfiles nil)
   :hook (;; replace XXX-mode with concrete major-mode(e. g. python-mode)
          (go-mode . lsp)
+         ;; (go-mode . lsp-deferred)
+         (go-mode . lsp-go-install-save-hooks)
          (python-mode . lsp)
          (c++-mode . lsp)
          (c-mode . lsp)
@@ -117,58 +151,6 @@
   :straight t
   )
 ;; (use-package dap-LANGUAGE) to load the dap adapter for your language
-
-;;; GoLang
-;; Dependencies:
-;;     github.com/klauspost/asmfmt/cmd/asmfmt
-;;     github.com/go-delve/delve/cmd/dlv
-;;     github.com/kisielk/errcheck
-;;     github.com/davidrjenni/reftools/cmd/fillstruct
-;;     github.com/mdempsky/gocode
-;;     github.com/stamblerre/gocode --- gocode for module
-;;     github.com/rogpeppe/godef
-;;     github.com/zmb3/gogetdoc
-;;     golang.org/x/tools/cmd/goimports
-;;     golang.org/x/lint/golint
-;;     golang.org/x/tools/gopls@latest
-;;     github.com/golangci/golangci-lint/cmd/golangci-lint
-;;     github.com/fatih/gomodifytags
-;;     golang.org/x/tools/cmd/gorename
-;;     github.com/jstemmer/gotags
-;;     golang.org/x/tools/cmd/guru
-;;     github.com/josharian/impl
-;;     honnef.co/go/tools/cmd/keyify
-;;     github.com/fatih/motion
-;;     github.com/koron/iferr
-;; Set up before-save hooks to format buffer and add/delete imports.
-;; Make sure you don't have other gofmt/goimports hooks enabled.
-(defun lsp-go-install-save-hooks ()
-  (add-hook 'before-save-hook #'lsp-format-buffer t t)
-  (add-hook 'before-save-hook #'lsp-organize-imports t t))
-
-(use-package go-mode
-  :ensure t
-  :straight t
-  :config
-  (add-hook 'go-mode-hook 'lsp-deferred)
-  (add-hook 'go-mode-hook #'lsp-go-install-save-hooks)
-  ;; gopls
-  (lsp-register-custom-settings
-   '(("gopls.completeUnimported" t t)
-     ("gopls.staticcheck" t t)))
-  ;; fix 'https://github.com/emacs-lsp/lsp-mode/issues/4225'
-  (setq lsp-go-server-path "gopls")
-  )
-
-;; Fix json-serialize encode wrong.
-;; (json-serialize (list :processId nil) :null-object nil :false-object :json-false))
-;; except: "{\"processId\":null}", but got "{\"processId\":{}}"
-;; So change lsp json serialize to json-encode.
-(defun advice-json-serialize (params &rest args)
-  (unless (plist-get args :null-object)
-    (let ((json-false (plist-get args :false-object))
-          (json-null (plist-get args :null-object)))
-      (json-encode params))))
 
 ;; LaTex
 ;; dependencies: texlab

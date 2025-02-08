@@ -32,3 +32,4 @@ transcript.txt
 /node_modules
 package-lock.json
 package.json
+.markdown-preview.html

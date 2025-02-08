@@ -74,7 +74,6 @@
                                         (projectile-mode 1)
                                         (editorconfig-mode 1)))
   (setq make-backup-files nil)
-  (setq create-lockfiles nil)
   ;; If you are using docker-tramp, docker is also supplemented.
   ;; If you are using vagrant-tramp, vagrant is also supplemented.
   )
