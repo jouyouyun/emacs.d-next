@@ -36,6 +36,10 @@
   :type 'string
   :group 'wen-ai)
 
+(defcustom wen-ai-gptel-groq-model 'deepseek-r1-distill-llama-70b
+  "The default gptel groq model."
+  :type 'symbol
+  :group 'wen-ai)
 (defcustom wen-ai-gptel-groq-key ""
   "The gptel groq key."
   :type 'string

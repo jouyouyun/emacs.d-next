@@ -93,19 +93,18 @@
   :straight t
   :config
   ;; use groq as default backend
-  (setq gptel-model   'mixtral-8x7b-32768
+  (setq gptel-model wen-ai-gptel-groq-model
         gptel-backend
         (gptel-make-openai "Groq"
           :host "api.groq.com"
           :endpoint "/openai/v1/chat/completions"
           :stream t
           :key wen-ai-gptel-groq-key
-          :models '(llama-3.1-70b-versatile
+          :models '(deepseek-r1-distill-qwen-32b
+                    qwen-2.5-coder-32b
                     llama3-70b-8192
-                    llama-3.1-8b-instant
-                    llama3-8b-8192
                     mixtral-8x7b-32768
-                    gemma-7b-it)))
+                    whisper-large-v3)))
   )
 
 ;; ellama

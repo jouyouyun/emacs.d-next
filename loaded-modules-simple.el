@@ -7,6 +7,7 @@
 (setq wen-ai-aider-args '("--no-auto-commits" "--model" ""))
 (setq wen-ai-aider-key-env "")
 (setq wen-ai-aider-key "")
+(setq wen-ai-gptel-groq-model 'deepseek-r1-distill-llama-70b)
 (setq wen-ai-gptel-groq-key "")
 (setq wen-ai-llm-gemini-key "")
 (setq wen-ai-llm-gemini-model "")
