@@ -8,6 +8,11 @@
 
 ;;; Code:
 
+;; taglist
+(use-package taglist
+  :ensure t
+  :straight '(:type git :host github :repo "liugang/taglist"))
+
 ;; gtags
 ;;   gtags-mode : To enable the global minor mode.
 ;;   gtags-mode-create : To create a gtags database in case it doesn't exist for the current project.
