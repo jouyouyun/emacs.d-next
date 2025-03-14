@@ -72,8 +72,8 @@
   :straight (:host github :repo "tninja/aider.el" :files ("aider.el"))
   :config
   ;; Use claude-3-5-sonnet cause it is best in aider benchmark
-  (setq aider-args wen-ai-aider-args)
   (setenv wen-ai-aider-key-env wen-ai-aider-key)
+  (setq aider-args wen-ai-aider-args)
   ;; Or use chatgpt model since it is most well known
   ;; (setq aider-args '("--model" "o3-mini"))
   ;; (setenv "OPENAI_API_KEY" <your-openai-api-key>)
@@ -85,6 +85,20 @@
   ;; ;;
   ;; Optional: Set a key binding for the transient menu
   ;; (global-set-key (kbd "C-c a") 'aider-transient-menu)
+  )
+
+;; aidermacs
+(use-package aidermacs
+  :straight (:host github :repo "MatthewZMD/aidermacs")
+  :config
+  (setq aidermacs-default-model wen-ai-aider-model)
+  (setq aidermacs-use-architect-mode t)
+  (setq aidermacs-architect-model wen-ai-aider-arch-model)
+  (setq aidermacs-editor-model wen-ai-aider-model)
+  (setq aidermacs-extra-args wen-ai-aidermacs-args)
+  ;; Multiline Input Configuration
+  ;; Comint backend:
+  (setq aidermacs-comint-multiline-newline-key "S-<return>")
   )
 
 ;; gptel

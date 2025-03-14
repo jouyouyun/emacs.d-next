@@ -13,12 +13,42 @@
   :prefix "wen-ai-"
   :group 'convenience)
 
+(defcustom wen-ai-aider-groq-key ""
+  "The aider groq key."
+  :type 'string
+  :group 'wen-ai)
+
+(defcustom wen-ai-aider-gemini-key ""
+  "The aider gemini key."
+  :type 'string
+  :group 'wen-ai)
+
+(defcustom wen-ai-aider-deepseek-key ""
+  "The aider deepseek key."
+  :type 'string
+  :group 'wen-ai)
+
+(defcustom wen-ai-aider-model ""
+  "The aider default model."
+  :type 'string
+  :group 'wen-ai)
+
+(defcustom wen-ai-aider-arch-model ""
+  "The aider default architect model."
+  :type 'string
+  :group 'wen-ai)
+
 ;; gemini/gemini-1.5-pro
 ;; gemini/gemini-2.0-flash
 ;; groq/llama3-70b-8192
 ;; deepseek/deepseek-chat
 (defcustom wen-ai-aider-args '("--no-auto-commits" "--model" "gemini/gemini-1.5-pro")
   "The aider args, such as: model."
+  :type '(repeat string)
+  :group 'wen-ai)
+
+(defcustom wen-ai-aidermacs-args '("--no-auto-commits" "--model" "gemini/gemini-1.5-pro")
+  "The aidermacs args, such as: api-base, api-key."
   :type '(repeat string)
   :group 'wen-ai)
 
