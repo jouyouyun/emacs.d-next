@@ -289,6 +289,12 @@
   :mode ("\\Dockerfile\\'" . dockerfile-mode)
   )
 
+(use-package varlink-mode
+  :ensure t
+  :straight (:host github :repo "varlink/libvarlink" :files ("emacs/varlink-mode.el"))
+  :mode ("\\.varlink\\'" . varlink-mode)
+  )
+
 (provide 'core-modes)
 
 ;;; core-modes.el ends here

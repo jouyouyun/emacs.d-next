@@ -9,21 +9,36 @@
 ;;; Code:
 
 (use-package company
-    :defer 0.1
-    :config
-    (global-company-mode t)
-    (setq-default
-        company-idle-delay 0.05
-        company-require-match nil
-        company-minimum-prefix-length 0
+  :ensure t
+  :straight t
+  :defer 0.1
+  :config
+  (setq-default
+   ;; company-auto-complete t
+   company-idle-delay 0.3
+   company-require-match nil
+   company-minimum-prefix-length 2
+   company-tooltip-limit 10
+   company-tooltip-align-annotations t
+   company-tooltip-flip-when-above t
 
-        ;; get only preview
-        company-frontends '(company-preview-frontend)
-        ;; also get a drop down
-        ;; company-frontends '(company-pseudo-tooltip-frontend company-preview-frontend)
-        )
-    ;; (setq company-auto-complete t)
-    )
+   ;; get only preview
+   company-frontends '(company-preview-frontend)
+   ;; also get a drop down
+   ;; company-frontends '(company-pseudo-tooltip-frontend company-preview-frontend)
+   )
+  ;; Remove duplicate candidate.
+  (add-to-list 'company-transformers #'delete-dups)
+  ;; (global-company-mode t)
+  :hook (after-init . global-company-mode)
+  )
+
+;; show icons
+(use-package company-box
+  :ensure t
+  :straight t
+  :if window-system
+  :hook (company-mode . company-box-mode))
 
 ;;; GoLang
 ;; Dependencies:
