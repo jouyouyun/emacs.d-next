@@ -10,7 +10,6 @@
 (setq wen-ai-aider-deepseek-key "")
 (setq wen-ai-aider-model "gemini/gemini-2.0-flash")
 (setq wen-ai-aider-arch-model "groq/deepseek-r1-distill-llama-70b")
-(setq wen-ai-aidermacs-args '("--openai-api-base" "" "--openai-api-key" ""))
 
 (setq wen-ai-aider-args '("--no-auto-commits" "--model" ""))
 (setq wen-ai-aider-key-env "")

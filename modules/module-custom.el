@@ -47,11 +47,6 @@
   :type '(repeat string)
   :group 'wen-ai)
 
-(defcustom wen-ai-aidermacs-args '("--no-auto-commits" "--model" "gemini/gemini-1.5-pro")
-  "The aidermacs args, such as: api-base, api-key."
-  :type '(repeat string)
-  :group 'wen-ai)
-
 ;; GEMINI_API_KEY
 ;; GROQ_API_KEY
 ;; DEEPSEEK_API_KEY
