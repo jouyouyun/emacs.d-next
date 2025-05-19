@@ -8,18 +8,28 @@
 
 ;;; Code:
 
+;; aidermacs
+(use-package aidermacs
+  :straight (:host github :repo "MatthewZMD/aidermacs")
+  :config
+  (setq aidermacs-extra-args wen-ai-aidermacs-args)
+  (setq aidermacs-auto-accept-architect t)
+  (setq aidermacs-comint-multiline-newline-key "S-<return>")
+  (setq aidermacs-watch-files t)
+  :custom
+  (aidermacs-use-architect-mode t)
+  (aidermacs-default-model wen-ai-aider-model)
+  (aidermacs-architect-model wen-ai-aider-arch-model)
+  (aidermacs-editor-model wen-ai-aider-model)
+  )
+
 ;; aider
 (use-package aider
-  :straight (:host github :repo "tninja/aider.el" :files ("aider.el"))
+  :straight (:host github :repo "tninja/aider.el")
   :config
   ;; Use claude-3-5-sonnet cause it is best in aider benchmark
   (setenv wen-ai-aider-key-env wen-ai-aider-key)
   (setq aider-args wen-ai-aider-args)
-  ;; use your personal config file
-  ;; (setq aider-args `("--config" ,(expand-file-name "~/.aider.conf.yml")))
-  ;; ;;
-  ;; Optional: Set a key binding for the transient menu
-  ;; (global-set-key (kbd "C-c a") 'aider-transient-menu)
   )
 
 ;; gptel
@@ -35,11 +45,8 @@
           :endpoint "/openai/v1/chat/completions"
           :stream t
           :key wen-ai-gptel-groq-key
-          :models '(deepseek-r1-distill-qwen-32b
-                    qwen-2.5-coder-32b
-                    llama3-70b-8192
-                    mixtral-8x7b-32768
-                    whisper-large-v3)))
+          :models '(llama3-70b-8192
+                    mixtral-8x7b-32768)))
   )
 
 ;; ellama
