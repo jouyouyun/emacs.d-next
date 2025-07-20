@@ -13,28 +13,12 @@
   :prefix "wen-ai-"
   :group 'convenience)
 
-(defcustom wen-ai-aider-groq-key ""
-  "The aider groq key."
-  :type 'string
+(defcustom wen-ai-aidermacs-args '("--no-auto-commits" "--model" "gemini/gemini-1.5-pro")
+  "The aider args, such as: model."
+  :type '(repeat string)
   :group 'wen-ai)
-
-(defcustom wen-ai-aider-gemini-key ""
-  "The aider gemini key."
-  :type 'string
-  :group 'wen-ai)
-
-(defcustom wen-ai-aider-deepseek-key ""
-  "The aider deepseek key."
-  :type 'string
-  :group 'wen-ai)
-
-(defcustom wen-ai-aider-model ""
+(defcustom wen-ai-aidermacs-model ""
   "The aider default model."
-  :type 'string
-  :group 'wen-ai)
-
-(defcustom wen-ai-aider-arch-model ""
-  "The aider default architect model."
   :type 'string
   :group 'wen-ai)
 
@@ -46,7 +30,6 @@
   "The aider args, such as: model."
   :type '(repeat string)
   :group 'wen-ai)
-
 ;; GEMINI_API_KEY
 ;; GROQ_API_KEY
 ;; DEEPSEEK_API_KEY
@@ -55,29 +38,30 @@
   "The aider key env."
   :type 'string
   :group 'wen-ai)
-
 (defcustom wen-ai-aider-key ""
   "The aider key."
   :type 'string
   :group 'wen-ai)
 
-(defcustom wen-ai-gptel-groq-model 'deepseek-r1-distill-llama-70b
+(defcustom wen-ai-gptel-model 'gemini-2.5-flash
   "The default gptel groq model."
   :type 'symbol
   :group 'wen-ai)
-(defcustom wen-ai-gptel-groq-key ""
-  "The gptel groq key."
+(defcustom wen-ai-gptel-host ""
+  "The gptel service host."
   :type 'string
   :group 'wen-ai)
-
-(defcustom wen-ai-llm-gemini-key ""
-  "The llm gemini key."
+(defcustom wen-ai-gptel-endpoint "/v1/chat/completions"
+  "The gptel service endpoint."
   :type 'string
   :group 'wen-ai)
-
-(defcustom wen-ai-llm-gemini-model ""
-  "The llm gemini model."
+(defcustom wen-ai-gptel-key ""
+  "The gptel service key."
   :type 'string
+  :group 'wen-ai)
+(defcustom wen-ai-gptel-models '("gemini-2.5-flash" "gemini-2.5-flash-live-preview")
+  "The gptel service models."
+  :type '(repeat string)
   :group 'wen-ai)
 
 (defgroup wen-obsidian nil

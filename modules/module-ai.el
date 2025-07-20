@@ -8,6 +8,10 @@
 
 ;;; Code:
 
+(use-package vterm
+  :straight t
+  :ensure t)
+
 ;; aidermacs
 (use-package aidermacs
   :straight (:host github :repo "MatthewZMD/aidermacs")
@@ -16,11 +20,13 @@
   (setq aidermacs-auto-accept-architect t)
   (setq aidermacs-comint-multiline-newline-key "S-<return>")
   (setq aidermacs-watch-files t)
+  ;; Use vterm backend (default is comint)
+  (setq aidermacs-backend 'vterm)
+  ;; don't match emacs theme colors
+  (setopt aidermacs-vterm-use-theme-colors nil)
   :custom
-  (aidermacs-use-architect-mode t)
-  (aidermacs-default-model wen-ai-aider-model)
-  (aidermacs-architect-model wen-ai-aider-arch-model)
-  (aidermacs-editor-model wen-ai-aider-model)
+  (aidermacs-default-chat-mode 'architect)
+  (aidermacs-default-model wen-ai-aidermacs-model)
   )
 
 ;; aider
@@ -38,36 +44,29 @@
   :straight t
   :config
   ;; use groq as default backend
-  (setq gptel-model wen-ai-gptel-groq-model
+  (setq gptel-model wen-ai-gptel-model
         gptel-backend
-        (gptel-make-openai "Groq"
-          :host "api.groq.com"
-          :endpoint "/openai/v1/chat/completions"
+        (gptel-make-openai "self-hosted"
+          :host wen-ai-gptel-host
+          :endpoint wen-ai-gptel-endpoint
           :stream t
-          :key wen-ai-gptel-groq-key
-          :models '(llama3-70b-8192
-                    mixtral-8x7b-32768)))
+          :key wen-ai-gptel-key
+          :models wen-ai-gptel-models))
   )
 
-;; ellama
-(use-package llm
+;; mcp
+;; install fetch: pip install mcp-server-fetch --break-system-packages 
+(use-package mcp
   :ensure t
-  :straight t
-  )
-(use-package ellama
-  :ensure t
-  :straight t
-  :init
-  ;; setup key bindings
-  ;; (setopt ellama-keymap-prefix "C-c e")
-  ;; language you want ellama to translate to
-  (setopt ellama-language "Chinese")
-  ;; could be llm-openai for example
-  (require 'llm-gemini)
-  (setopt ellama-provider
-          (make-llm-gemini
-           :key wen-ai-llm-gemini-key
-           :chat-model wen-ai-llm-gemini-model))
+  :straight (:host github :repo "lizqwerscott/mcp.el")
+  :after gptel
+  :custom (mcp-hub-servers
+           `(("memory" . (:command "npx" :args ("-y" "@modelcontextprotocol/server-memory")))
+             ("sequential-thinking" . (:command "npx" :args ("-y" "@modelcontextprotocol/server-sequential-thinking")))
+             ("fetch" . (:command "python" :args ("-m" "mcp_server_fetch")))
+			 ))
+  :config (require 'mcp-hub)
+  :hook (after-init . mcp-hub-start-all-server)
   )
 
 (provide 'module-ai)
