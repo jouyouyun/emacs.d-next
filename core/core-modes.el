@@ -295,6 +295,12 @@
   :mode ("\\.varlink\\'" . varlink-mode)
   )
 
+;; magit depend
+(use-package cond-let
+  :ensure t
+  :straight (:host github :repo "tarsius/cond-let")
+  )
+
 (provide 'core-modes)
 
 ;;; core-modes.el ends here

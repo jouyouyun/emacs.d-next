@@ -64,6 +64,11 @@
   :type '(repeat string)
   :group 'wen-ai)
 
+(defcustom wen-ai-gptel-mcp-hub nil
+  "The gptel mcp hub servers."
+  :type '(list (cons string (list symbol string)))
+  :group 'wen-ai)
+
 (defgroup wen-obsidian nil
   "Emacs Wen obsidian configuration."
   :prefix "wen-obsidian-"

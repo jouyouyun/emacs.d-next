@@ -43,28 +43,25 @@
   :ensure t
   :straight t
   :config
-  ;; use groq as default backend
-  (setq gptel-model wen-ai-gptel-model
-        gptel-backend
-        (gptel-make-openai "self-hosted"
+  (require 'gptel-integrations) ; for MCP integration
+  (setq mcp-hub-servers wen-ai-gptel-mcp-hub)
+  (setq gptel--known-backends nil) ; Remove default backends (ChatGPT)
+  (setq gptel-backend
+        (gptel-make-openai "Self"
           :host wen-ai-gptel-host
           :endpoint wen-ai-gptel-endpoint
           :stream t
           :key wen-ai-gptel-key
           :models wen-ai-gptel-models))
+  (setq gptel-backend (gptel-get-backend "Self")) ; Default backend
+  (setq gptel-model (car (gptel-backend-models gptel-backend))) ; Default model
   )
 
 ;; mcp
-;; install fetch: pip install mcp-server-fetch --break-system-packages 
 (use-package mcp
   :ensure t
   :straight (:host github :repo "lizqwerscott/mcp.el")
   :after gptel
-  :custom (mcp-hub-servers
-           `(("memory" . (:command "npx" :args ("-y" "@modelcontextprotocol/server-memory")))
-             ("sequential-thinking" . (:command "npx" :args ("-y" "@modelcontextprotocol/server-sequential-thinking")))
-             ("fetch" . (:command "python" :args ("-m" "mcp_server_fetch")))
-			 ))
   :config (require 'mcp-hub)
   :hook (after-init . mcp-hub-start-all-server)
   )
