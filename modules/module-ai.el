@@ -12,31 +12,20 @@
   :straight t
   :ensure t)
 
-;; aidermacs
-(use-package aidermacs
-  :straight (:host github :repo "MatthewZMD/aidermacs")
+(use-package ai-code-interface
+  :straight (:host github :repo "tninja/ai-code-interface.el")
+  :ensure t
   :config
-  (setq aidermacs-extra-args wen-ai-aidermacs-args)
-  (setq aidermacs-auto-accept-architect t)
-  (setq aidermacs-comint-multiline-newline-key "S-<return>")
-  (setq aidermacs-watch-files t)
-  ;; Use vterm backend (default is comint)
-  (setq aidermacs-backend 'vterm)
-  ;; don't match emacs theme colors
-  (setopt aidermacs-vterm-use-theme-colors nil)
-  :custom
-  (aidermacs-default-chat-mode 'architect)
-  (aidermacs-default-model wen-ai-aidermacs-model)
-  )
+  (ai-code-set-backend  'ai-code-codex-cli) ;; use codex as backend
+  ;; Enable global keybinding for the main menu
+  ;; (global-set-key (kbd "C-c a") #'ai-code-menu)
+  ;; Optional: Set up Magit integration for AI commands in Magit popups
+  (with-eval-after-load 'magit
+    (ai-code-magit-setup-transients)))
 
-;; aider
-(use-package aider
-  :straight (:host github :repo "tninja/aider.el")
-  :config
-  ;; Use claude-3-5-sonnet cause it is best in aider benchmark
-  (setenv wen-ai-aider-key-env wen-ai-aider-key)
-  (setq aider-args wen-ai-aider-args)
-  )
+(use-package eca-emacs
+  :straight (:host github :repo "editor-code-assistant/eca-emacs")
+  :ensure t)
 
 ;; gptel
 (use-package gptel
@@ -55,15 +44,6 @@
           :models wen-ai-gptel-models))
   (setq gptel-backend (gptel-get-backend "Self")) ; Default backend
   (setq gptel-model (car (gptel-backend-models gptel-backend))) ; Default model
-  )
-
-;; mcp
-(use-package mcp
-  :ensure t
-  :straight (:host github :repo "lizqwerscott/mcp.el")
-  :after gptel
-  :config (require 'mcp-hub)
-  :hook (after-init . mcp-hub-start-all-server)
   )
 
 (provide 'module-ai)
