@@ -13,36 +13,6 @@
   :prefix "wen-ai-"
   :group 'convenience)
 
-(defcustom wen-ai-aidermacs-args '("--no-auto-commits" "--model" "gemini/gemini-1.5-pro")
-  "The aider args, such as: model."
-  :type '(repeat string)
-  :group 'wen-ai)
-(defcustom wen-ai-aidermacs-model ""
-  "The aider default model."
-  :type 'string
-  :group 'wen-ai)
-
-;; gemini/gemini-1.5-pro
-;; gemini/gemini-2.0-flash
-;; groq/llama3-70b-8192
-;; deepseek/deepseek-chat
-(defcustom wen-ai-aider-args '("--no-auto-commits" "--model" "gemini/gemini-1.5-pro")
-  "The aider args, such as: model."
-  :type '(repeat string)
-  :group 'wen-ai)
-;; GEMINI_API_KEY
-;; GROQ_API_KEY
-;; DEEPSEEK_API_KEY
-;; OLLAMA_API_BASE=http://127.0.0.1:11434
-(defcustom wen-ai-aider-key-env "GEMINI_API_KEY"
-  "The aider key env."
-  :type 'string
-  :group 'wen-ai)
-(defcustom wen-ai-aider-key ""
-  "The aider key."
-  :type 'string
-  :group 'wen-ai)
-
 (defcustom wen-ai-gptel-model 'gemini-2.5-flash
   "The default gptel groq model."
   :type 'symbol

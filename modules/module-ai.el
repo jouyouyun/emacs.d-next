@@ -12,31 +12,38 @@
   :straight t
   :ensure t)
 
-;; aidermacs
-(use-package aidermacs
-  :straight (:host github :repo "MatthewZMD/aidermacs")
+;; for slash commands popup
+(use-package popup :ensure t)
+(use-package gemini-cli
+  :straight (:type git :host github :repo "linchen2chris/gemini-cli.el" :branch "main")
+  :bind-keymap
+  ("C-c c" . gemini-cli-command-map)
   :config
-  (setq aidermacs-extra-args wen-ai-aidermacs-args)
-  (setq aidermacs-auto-accept-architect t)
-  (setq aidermacs-comint-multiline-newline-key "S-<return>")
-  (setq aidermacs-watch-files t)
-  ;; Use vterm backend (default is comint)
-  (setq aidermacs-backend 'vterm)
-  ;; don't match emacs theme colors
-  (setopt aidermacs-vterm-use-theme-colors nil)
-  :custom
-  (aidermacs-default-chat-mode 'architect)
-  (aidermacs-default-model wen-ai-aidermacs-model)
-  )
+  (setq gemini-cli-terminal-backend 'vterm)
+  (gemini-cli-mode))
 
-;; aider
-(use-package aider
-  :straight (:host github :repo "tninja/aider.el")
-  :config
-  ;; Use claude-3-5-sonnet cause it is best in aider benchmark
-  (setenv wen-ai-aider-key-env wen-ai-aider-key)
-  (setq aider-args wen-ai-aider-args)
-  )
+(use-package eca
+  :straight (:type git :host github :repo "editor-code-assistant/eca-emacs")
+  :ensure t)
+
+(use-package codex-cli
+  :straight (:type git :host github :repo "bennfocus/codex-cli.el")
+  ;; :bind (("C-c c t" . codex-cli-toggle)
+  ;;        ("C-c c s" . codex-cli-start)
+  ;;        ("C-c c q" . codex-cli-stop)
+  ;;        ("C-c c Q" . codex-cli-stop-all)
+  ;;        ("C-c c p" . codex-cli-send-prompt)
+  ;;        ("C-c c r" . codex-cli-send-region)
+  ;;        ("C-c c f" . codex-cli-send-file)
+  ;;        ;; Show-all layout + paging
+  ;;        ("C-c c a" . codex-cli-toggle-all)
+  ;;        ("C-c c n" . codex-cli-toggle-all-next-page)
+  ;;        ("C-c c b" . codex-cli-toggle-all-prev-page))
+  :init
+  (setq codex-cli-executable "codex"
+        codex-cli-terminal-backend 'vterm
+        codex-cli-side 'right
+        codex-cli-width 90))
 
 ;; gptel
 (use-package gptel
@@ -55,15 +62,6 @@
           :models wen-ai-gptel-models))
   (setq gptel-backend (gptel-get-backend "Self")) ; Default backend
   (setq gptel-model (car (gptel-backend-models gptel-backend))) ; Default model
-  )
-
-;; mcp
-(use-package mcp
-  :ensure t
-  :straight (:host github :repo "lizqwerscott/mcp.el")
-  :after gptel
-  :config (require 'mcp-hub)
-  :hook (after-init . mcp-hub-start-all-server)
   )
 
 (provide 'module-ai)
