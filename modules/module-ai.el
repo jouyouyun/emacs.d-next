@@ -45,24 +45,24 @@
         codex-cli-side 'right
         codex-cli-width 90))
 
-;; gptel
-(use-package gptel
-  :ensure t
-  :straight t
-  :config
-  (require 'gptel-integrations) ; for MCP integration
-  (setq mcp-hub-servers wen-ai-gptel-mcp-hub)
-  (setq gptel--known-backends nil) ; Remove default backends (ChatGPT)
-  (setq gptel-backend
-        (gptel-make-openai "Self"
-          :host wen-ai-gptel-host
-          :endpoint wen-ai-gptel-endpoint
-          :stream t
-          :key wen-ai-gptel-key
-          :models wen-ai-gptel-models))
-  (setq gptel-backend (gptel-get-backend "Self")) ; Default backend
-  (setq gptel-model (car (gptel-backend-models gptel-backend))) ; Default model
-  )
+;; ;; gptel
+;; (use-package gptel
+;;   :ensure t
+;;   :straight t
+;;   :config
+;;   (require 'gptel-integrations) ; for MCP integration
+;;   (setq mcp-hub-servers wen-ai-gptel-mcp-hub)
+;;   (setq gptel--known-backends nil) ; Remove default backends (ChatGPT)
+;;   (setq gptel-backend
+;;         (gptel-make-openai "Self"
+;;           :host wen-ai-gptel-host
+;;           :endpoint wen-ai-gptel-endpoint
+;;           :stream t
+;;           :key wen-ai-gptel-key
+;;           :models wen-ai-gptel-models))
+;;   (setq gptel-backend (gptel-get-backend "Self")) ; Default backend
+;;   (setq gptel-model (car (gptel-backend-models gptel-backend))) ; Default model
+;;   )
 
 (provide 'module-ai)
 
